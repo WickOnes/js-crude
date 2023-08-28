@@ -32,19 +32,4 @@
   border-radius: 20px;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.user-list li {
-  padding-right: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.user-list strong {
-  background-color: yellow;
-}
-
 /*# sourceMappingURL=style.css.map */
