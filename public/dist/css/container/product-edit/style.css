@@ -1,0 +1,66 @@
+.edit {
+  margin: 20px 0 0 20px;
+}
+.edit__title {
+  color: blue;
+  font-size: 30px;
+}
+.edit__form {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  width: 70%;
+  margin-top: 30px;
+  padding: 15px;
+  display: grid;
+  gap: 10px;
+}
+.edit__form input {
+  width: 100%;
+  border: 1px solid rgba(128, 128, 128, 0.612);
+  padding-left: 5px;
+}
+.edit__form textarea {
+  width: 100%;
+  border: 1px solid gray;
+  padding: 5px;
+}
+.edit__form__label {
+  color: gray;
+  font-size: 14px;
+}
+.edit__form__title {
+  font-weight: bold;
+  font-size: 20px;
+}
+.edit__form__content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.edit__form__field {
+  display: grid;
+  gap: 5px;
+}
+.edit__form__field__button {
+  width: 100%;
+  background-color: rgb(47, 47, 249);
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+}
+.edit__form__field__button--danger {
+  background-color: red;
+}
+.edit__form__field--full-width {
+  grid-column: span 3;
+}
+.edit__form__field--button {
+  grid-column: span 3;
+  display: flex;
+}
+.edit__form__field--button a {
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */

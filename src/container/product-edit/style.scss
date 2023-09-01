@@ -1,0 +1,74 @@
+.edit {
+  margin: 20px 0 0 20px;
+  &__title {
+    color: blue;
+    font-size: 30px;
+  }
+  &__form {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    width: 70%;
+    margin-top: 30px;
+    padding: 15px;
+
+    display: grid;
+    gap: 10px;
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(128, 128, 128, 0.612);
+      padding-left: 5px;
+    }
+    textarea {
+      width: 100%;
+      border: 1px solid gray;
+      padding: 5px;
+    }
+
+    &__label{
+        color: gray;
+        font-size: 14px;
+    }
+
+    &__title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    &__field {
+      display: grid;
+      gap: 5px;
+
+      &__button {
+        width: 100%;
+        background-color: rgb(47, 47, 249);
+        height: 40px;
+        border-radius: 10px;
+        color: white;
+      }
+      &__button--danger {
+        background-color: red;
+      }
+
+      &--full-width {
+        grid-column: span 3;
+      }
+
+      &--button {
+        grid-column: span 3;
+        display: flex;
+
+        a {
+          color: white;
+        }
+      }
+    }
+  }
+}

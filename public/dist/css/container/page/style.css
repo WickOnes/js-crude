@@ -1,0 +1,19 @@
+body {
+  background-color: gray;
+}
+
+.nav {
+  text-align: center;
+  margin-top: 20px;
+}
+.nav a {
+  text-decoration: none;
+  color: rgb(5, 252, 116);
+  font-size: 30px;
+}
+.nav__menu {
+  display: grid;
+  gap: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */

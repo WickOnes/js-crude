@@ -1,0 +1,55 @@
+main {
+  margin: 30px 0 0 30px;
+}
+
+section {
+  margin-top: 40px;
+}
+
+.number {
+  font-size: 25px;
+}
+
+.list {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+.list a {
+  text-decoration: none;
+  color: rgb(234, 5, 28);
+}
+
+.form {
+  margin: 20px;
+}
+.form input {
+  width: 100%;
+  border: 2px solid gray;
+}
+.form textarea {
+  width: 100%;
+  border: 2px solid gray;
+  resize: none;
+  padding: 2px;
+}
+.form button {
+  background-color: rgb(47, 47, 249);
+  height: 40px;
+  color: white;
+}
+.form__content {
+  width: 50%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.form__content .form__field--full-width {
+  grid-column: span 2;
+}
+.form__content .form__input--height {
+  height: 60px;
+}
+
+/*# sourceMappingURL=style.css.map */

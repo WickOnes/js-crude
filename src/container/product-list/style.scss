@@ -1,0 +1,47 @@
+.header {
+  margin: 20px 0 0 20px;
+}
+.cards {
+  margin: 20px 0 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.card {
+  padding: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  height: 200px;
+  width: 250px;
+
+  display: grid;
+  gap: 10px;
+
+  &__title {
+    font-weight: 800;
+  }
+
+  &__id{
+    color: gray;
+    font-size: 14px;
+  }
+
+  &__footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    &__price{
+        font-weight: bold;
+        vertical-align: bottom;
+    }
+
+    &__change{
+        color: rgb(29, 72, 225);
+    }
+  }
+
+  
+}
