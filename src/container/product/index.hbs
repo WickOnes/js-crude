@@ -1,0 +1,42 @@
+<main>
+    <div>
+        <a href="/">На головну</a>
+    </div>
+    <section>
+        <h2>Створення Товару</h2>
+        <form class="form" action="/product-create" method="POST">
+            <h3>Інформація про товар</h3>
+            <div class="form__content">
+                <div class="form__field ">
+                    <label for="name" class="form__label">Назва товару:</label>
+                    <input type="text" name="name" class="form__input">
+                </div>
+                <div class="form__field ">
+                    <label for="price" class="form__label">Ціна:</label>
+                    <input type="text" name="price" class="form__input">
+                </div>
+                <div class="form__field form__field--full-width ">
+                    <label for="description" class="form__label">Короткий опис товару:</label>
+                    <textarea name="description" class="form__input form__input--height"></textarea>
+                </div>
+                <button class="form__button form__field--full-width">
+                    Створити
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+    <section>
+        <div class="list">
+            {{#if products.isEmpty}}
+            Немає продуктів
+            {{else}}
+            {{#with products}}
+            <h2>Кількість продуктів - <span class="number">{{productList.length}}</span> </h2>
+            {{/with}}
+            <a href="/product-list">Переглянути список</a>
+            {{/if}}
+        </div>
+    </section>
+</main>
