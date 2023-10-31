@@ -1,20 +1,20 @@
 <main>
-  <a href='/{{store}}'>Повернутись</a>
-  <h2 class='header'>Список товарів:</h2>
-  <section class='cards'>
+    <a href="/{{store}}">Повернутись</a>
+    <h2 class="header">Список товарів:</h2>
+    <section class="cards">
 
-    {{#each productList}}
-      <div class='card'>
-        <h2 class='card__title'>{{name}}</h2>
-        <p class='card__description'>{{description}}</p>
-        <p class='card__id'>ID: {{id}}</p>
-        <div class='card__footer'>
-          <p class='card__footer__price'>{{price}} ₴</p>
-          <button class='card__footer__change'>
-            <a href='/product-edit?id={{id}}'>Редагувати</a>
-          </button>
+        {{#each productList}}
+        <div class="card">
+            <h2 class="card__title">{{name}}</h2>
+            <p class="card__description">{{description}}</p>
+            <p class="card__id">ID: {{id}}</p>
+            <div class="card__footer">
+                <p class="card__footer__price">{{price}} ₴</p>
+                <button class="card__footer__change">
+                    <a href="/product-edit?id={{id}}">Редагувати</a>
+                </button>
+            </div>
         </div>
-      </div>
-    {{/each}}
-  </section>
+        {{/each}}
+    </section>
 </main>
