@@ -1,0 +1,14 @@
+<main class="main">
+
+    <div class="card-info">
+        <div class="main-heading">
+            {{> heading title="Інформація про замовлення" }}
+        </div>
+        <div class="purchase-info">
+            {{#with data}}
+            {{> purchase-info data=this}}
+            {{/with}}
+        </div>
+    </div>
+
+</main>

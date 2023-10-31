@@ -1,0 +1,39 @@
+@use '../../component/divider/style.scss' as divider;
+
+.product-card {
+  // margin-bottom: 10px;
+
+  .wrapper {
+    display: grid;
+    // align-items: center;
+    gap: 20px;
+
+    &__title--center{
+      align-self: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    &__title {
+      color: gray;
+      font-size: 18px;
+      text-align: baseline;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    &__subtitle{
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 600;
+    }
+
+   
+  }
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  &__title {
+    font-weight: 800;
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,14 @@
+<main class="main">
+
+    <div class="main-heading">
+        {{> heading title="Мої замовлення" }}
+        <a href="/purchase">Додати інший товар</a>
+    </div>
+
+    <div class="product-list">
+        {{#each data.list }}
+        {{> purchase-list data=this}}
+        {{/each}}
+    </div>
+
+</main>

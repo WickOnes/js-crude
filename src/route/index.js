@@ -1,83 +1,124 @@
 // Підключаємо технологію express для back-end сервера
+
 const express = require('express')
 // Cтворюємо роутер - місце, куди ми підключаємо ендпоїнти
 const router = express.Router()
 
 // ================================================================
-class Product {
-  static #list = [
-    {
-      id: 5555,
-      createDate: '2023-08-30T19:34:53.223Z',
-      name: 'name',
-      price: '44554',
-      description: 'фвіііііііііііііііііііііііііііііііі',
-    },
-    {
-      id: 4444,
-      createDate: '2023-08-30T19:34:53.223Z',
-      name: 'name',
-      price: '44554',
-      description: 'фвіііііііііііііііііііііііііііііііі',
-    },
-  ]
 
-  constructor(name, price, description) {
-    this.id = Math.floor(Math.random().toFixed(5) * 100000)
-    this.createDate = new Date().toISOString()
-    this.name = name
-    this.price = price
-    this.description = description
+class Purchase {
+  static DELIVERY_PRICE = 150
+  static #BONUS_FACTOR = 0.1
+
+  static #count = 0
+  static #list = []
+
+  static #bonusAccount = new Map()
+
+  static getBonusBalance = (email) => {
+    return Purchase.#bonusAccount.get(email) || 0
   }
 
-  static getList() {
-    return Product.#list
+  static calcBonusAmount = (value) => {
+    return value * Purchase.#BONUS_FACTOR
   }
 
-  static add(product) {
-    Product.#list.push(product)
+  static updateBonusBalanse = (
+    email,
+    price,
+    bonusUse = 0,
+  ) => {
+    const amount = this.calcBonusAmount(price)
+
+    const currentBalance = Purchase.getBonusBalance(email)
+
+    const updateBalance = currentBalance + amount - bonusUse
+
+    Purchase.#bonusAccount.set(email, updateBalance)
+
+    console.log(email, updateBalance)
+
+    return amount
   }
 
-  static getById(id) {
-    return Product.#list.find(
-      (product) => product.id === id,
-    )
-  }
-  static updateById(id, data) {
-    const product = this.getById(id)
-    if (product) {
-      product.name = data.name || product.name
-      product.price = data.price || product.price
-      product.description =
-        data.description || product.description
-    }
+  constructor(data, product) {
+    this.id = ++Purchase.#count
+
+    this.firstname = data.firstname
+    this.lastname = data.lastname
+
+    this.phone = data.phone
+    this.email = data.email
+
+    this.comment = data.comment || null
+    this.bonus = data.bonus || 0
+    this.promocode = data.promocode || null
+    this.totalPrice = data.totalPrice
+    this.productPrice = data.productPrice
+    this.deliveryPrice = data.deliveryPrice
+    this.amount = data.amount
+    this.product = product
+    this.bonusBalance = data.bonusBalance
   }
 
-  static deleteById = (id) => {
-    const index = this.#list.findIndex(
-      (product) => product.id === id,
-    )
-    if (index !== -1) {
-      this.#list.splice(index, 1)
+  static add = (...arg) => {
+    const newPurchase = new Purchase(...arg)
+
+    this.#list.push(newPurchase)
+    return newPurchase
+  }
+
+  static getList = () => {
+    return Purchase.#list.reverse()
+  }
+
+  static getById = (id) => {
+    return Purchase.#list.find((item) => item.id === id)
+  }
+
+  static updateById = (id, data) => {
+    const purchase = Purchase.getById(id)
+
+    if (purchase) {
+      if (data.firstname)
+        purchase.firstname = data.firstname
+
+      if (data.lastname) purchase.lastname = data.lastname
+      if (data.phone) purchase.phone = data.phone
+      if (data.email) purchase.email = data.email
+
+      return true
+    } else {
+      return false
     }
   }
 }
 
-class User {
+class Product {
   static #list = []
-  constructor(email, login, password) {
-    this.email = email
-    this.login = login
-    this.password = password
-    this.id = new Date().getTime()
+  static #count = 0
+
+  constructor(
+    img,
+    title,
+    description,
+    category,
+    price,
+    amount = 0,
+  ) {
+    this.id = ++Product.#count
+    this.img = img
+    this.title = title
+    this.description = description
+    this.category = category
+    this.price = price
+    this.amount = amount
   }
 
-  verifyPassword = (password) => {
-    return this.password === password
-  }
+  static add = (...data) => {
+    const newProduct = new Product(...data)
 
-  static add = (user) => {
-    this.#list.push(user)
+    this.#list.push(newProduct)
   }
 
   static getList = () => {
@@ -85,39 +126,82 @@ class User {
   }
 
   static getById = (id) => {
-    return this.#list.find((user) => user.id === id)
+    return this.#list.find((product) => product.id === id)
   }
 
-  static deleteById = (id) => {
-    const index = this.#list.findIndex(
-      (user) => user.id === id,
+  static getRandomList = (id) => {
+    const filteredList = this.#list.filter(
+      (product) => product.id !== id,
     )
 
-    if (index !== -1) {
-      this.#list.splice(index, 1)
-      return true
-    } else {
-      return false
-    }
-  }
+    const shuffledList = filteredList.sort(
+      () => Math.random() - 0.5,
+    )
 
-  static updateById = (id, data) => {
-    const user = this.getById(id)
-
-    if (user) {
-      this.update(user, data)
-      return true
-    } else {
-      return false
-    }
-  }
-
-  static update = (user, { email }) => {
-    if (email) {
-      user.email = email
-    }
+    return shuffledList.slice(0, 3)
   }
 }
+
+class Promocode {
+  static #list = []
+
+  constructor(name, factor) {
+    this.name = name
+    this.factor = factor
+  }
+
+  static add = (name, factor) => {
+    const newPromoCode = new Promocode(name, factor)
+    Promocode.#list.push(newPromoCode)
+    return newPromoCode
+  }
+
+  static getByName = (name) => {
+    return this.#list.find((promo) => promo.name === name)
+  }
+
+  static calc = (promo, price) => {
+    return price * promo.factor
+  }
+}
+
+Promocode.add('Summer2023', 0.9)
+Promocode.add('DISCONT', 0.5)
+Promocode.add('SALE25', 0.75)
+
+Product.add(
+  'https://picsum.photos/250/300',
+  "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [
+    { id: 1, text: 'Готовиий до відправки' },
+    { id: 2, text: 'Топ продажів' },
+  ],
+  27000,
+  10,
+)
+Product.add(
+  'https://picsum.photos/250/300',
+  "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [
+    { id: 1, text: 'Готовиий до відправки' },
+    { id: 2, text: 'Топ продажів' },
+  ],
+  400000,
+  10,
+)
+Product.add(
+  'https://picsum.photos/250/300',
+  "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+  'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+  [
+    { id: 1, text: 'Готовиий до відправки' },
+    { id: 2, text: 'Топ продажів' },
+  ],
+  7000,
+  10,
+)
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/', function (req, res) {
@@ -131,149 +215,374 @@ router.get('/', function (req, res) {
 })
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/user', function (req, res) {
+router.get('/purchase', function (req, res) {
   // res.render генерує нам HTML сторінку
-  const list = User.getList()
+
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('index', {
+  res.render('purchase-index', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'index',
+    style: 'purchase-index',
     data: {
-      users: {
-        list,
-        isEmpty: list.length === 0,
-      },
+      list: Product.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
-
 // ================================================================
 
-router.post('/user-create', function (req, res) {
-  const { email, login, password } = req.body
-
-  const user = new User(email, login, password)
-
-  User.add(user)
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Користувач створенний',
-    store: 'user',
-  })
-})
-
-// ================================================================
-
-router.get('/user-delete', function (req, res) {
-  const { id } = req.query
-  User.deleteById(Number(id))
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Користувача виделено',
-    store: 'user',
-  })
-})
-// ======================================================
-
-router.post('/user-update', function (req, res) {
-  const { email, password, id } = req.body
-
-  const user = User.getById(Number(id))
-  console.log(user)
-
-  let result = false
-
-  console.log(user.verifyPassword(password))
-  if (user.verifyPassword(password)) {
-    User.update(user, { email })
-    result = true
-  }
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: result
-      ? 'Пошту Користувача змінено'
-      : 'Сталася помилка',
-    store: 'user',
-  })
-})
-
-// ================================================================
-router.get('/product', function (req, res) {
-  const productList = Product.getList()
-
-  res.render('product', {
-    style: 'product',
-    products: {
-      productList,
-      isEmpty: productList.length === 0,
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-product', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-product', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-product',
+    data: {
+      list: Product.getRandomList(id),
+      product: Product.getById(id),
     },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
-// ======================================================
+// ================================================================
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-create', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  const amount = Number(req.body.amount)
+  const product = Product.getById(id)
 
-router.post('/product-create', function (req, res) {
-  const { name, price, description } = req.body
+  if (amount < 1) {
+    return res.render('alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Некоректна кількість товару',
+        link: `/purchase-product?id=${id}`,
+      },
+    })
+  }
 
-  const product = new Product(name, price, description)
+  const productPrice = product.price * amount
+  const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+  const bonus = Purchase.calcBonusAmount(totalPrice)
 
-  Product.add(product)
-
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Продукт створено',
-    store: 'product',
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-create', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-create',
+    data: {
+      id: product.id,
+      cart: [
+        {
+          text: `${product.title} (${amount}) шт}`,
+          price: productPrice,
+        },
+        {
+          text: `Доставка`,
+          price: Purchase.DELIVERY_PRICE,
+        },
+      ],
+      totalPrice,
+      productPrice,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
+      amount,
+      bonus,
+    },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
-// ======================================================
-router.get('/product-list', function (req, res) {
-  const productList = Product.getList()
-  res.render('product-list', {
-    style: 'product-list',
-    productList,
-    store: 'product',
+// ================================================================
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-submit', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+
+  let {
+    totalPrice,
+    productPrice,
+    deliveryPrice,
+    amount,
+    firstname,
+    lastname,
+    email,
+    phone,
+    promocode,
+    bonus,
+    comment,
+    bonusBalance,
+  } = req.body
+
+  const product = Product.getById(id)
+
+  if (!product) {
+    return res.render('alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Товар не знайдено',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  if (product.amount < amount) {
+    return res.render('alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Товару немає в потрібній кількості',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  totalPrice = Number(totalPrice)
+  productPrice = Number(productPrice)
+  deliveryPrice = Number(deliveryPrice)
+  amount = Number(amount)
+  bonus = Number(bonus)
+
+  if (
+    isNaN(totalPrice) ||
+    isNaN(productPrice) ||
+    isNaN(deliveryPrice) ||
+    isNaN(amount) ||
+    isNaN(bonus)
+  ) {
+    return res.render('alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Некоректні данні',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  if (!firstname || !lastname || !email || !phone) {
+    return res.render('alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'alert',
+      data: {
+        message: "Заповніит обов'язкові поля",
+        info: 'Некоректні данні',
+        link: '/purchase-list',
+      },
+    })
+  }
+
+  if (bonus || bonus > 0) {
+    const bonusAmount = Purchase.getBonusBalance(email)
+
+    if (bonus > bonusAmount) {
+      bonus = bonusAmount
+    }
+
+    Purchase.updateBonusBalanse(email, productPrice, bonus)
+
+    totalPrice -= bonus
+  } else {
+    Purchase.updateBonusBalanse(email, totalPrice, 0)
+  }
+
+  if (promocode) {
+    promocode = Promocode.getByName(promocode)
+
+    if (promocode) {
+      totalPrice = Promocode.calc(promocode, totalPrice)
+    }
+  }
+
+  bonusBalance = Purchase.getBonusBalance(email)
+  console.log(bonusBalance)
+  const purchase = Purchase.add(
+    {
+      totalPrice,
+      productPrice,
+      deliveryPrice,
+      amount,
+      firstname,
+      lastname,
+      email,
+      phone,
+      promocode,
+      bonus,
+      comment,
+      bonusBalance,
+    },
+    product,
+  )
+
+  // console.log(product)
+  console.log(purchase)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'alert',
+    data: {
+      message: 'Операція успішна',
+      info: 'Замовлення створено',
+      link: '/purchase-list',
+    },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
+// ================================================================
 
-// ============================================================
-router.get('/product-edit', function (req, res) {
-  const { id } = req.query
-  const productId = Product.getById(Number(id))
-  res.render('product-edit', {
-    style: 'product-edit',
-    productId,
-    store: 'product',
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-list', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-list', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-list',
+    data: {
+      list: Purchase.getList(),
+      // list: [
+      //   {
+      //     id: 1,
+      //     firstname: '111',
+      //     lastname: '111',
+      //     phone: '111',
+      //     email: '111',
+      //     comment: '111',
+      //     bonus: 0,
+      //     promocode: null,
+      //     totalPrice: 7150,
+      //     productPrice: 7000,
+      //     deliveryPrice: 150,
+      //     amount: 1,
+      //     product: {
+      //       id: 3,
+      //       img: 'https://picsum.photos/250/300',
+      //       title:
+      //         "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+      //       description:
+      //         'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+      //       category: [[Object], [Object]],
+      //       price: 7000,
+      //       amount: 10,
+      //     },
+      //     bonusBalance: 715,
+      //   },
+      // ],
+    },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
+// ================================================================
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-info', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  console.log(Purchase.getById(id))
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-info',
+    data: Purchase.getById(id),
 
-// ============================================================
-router.post('/product-edit', function (req, res) {
-  const { id, ...data } = req.body
-
-  Product.updateById(Number(id), data)
-
-  res.render('success-info', {
-    style: 'success-info',
-    store: 'product-list',
-    info: 'Продукт оновлено',
+    // data: {
+    //   id: 1,
+    //   firstname: '111',
+    //   lastname: '111',
+    //   phone: '111',
+    //   email: '111',
+    //   comment: '111',
+    //   bonus: 0,
+    //   promocode: null,
+    //   totalPrice: 7150,
+    //   productPrice: 7000,
+    //   deliveryPrice: 150,
+    //   amount: 1,
+    //   product: {
+    //     id: 3,
+    //     img: 'https://picsum.photos/250/300',
+    //     title:
+    //       "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+    //     description:
+    //       'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+    //     category: [[Object], [Object]],
+    //     price: 7000,
+    //     amount: 10,
+    //   },
+    //   bonusBalance: 715,
+    // },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
+// ================================================================
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-change', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-change', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-change',
+    data: Purchase.getById(id),
 
-// ============================================================
-
-router.get('/product-delete', function (req, res) {
-  const { id } = req.query
-  Product.deleteById(Number(id))
-  res.render('success-info', {
-    style: 'success-info',
-    info: 'Продукт виделено',
-    store: 'product',
+    // data: {
+    //   id: 1,
+    //   firstname: '111',
+    //   lastname: '111',
+    //   phone: '111',
+    //   email: '111',
+    //   comment: '111',
+    //   bonus: 0,
+    //   promocode: null,
+    //   totalPrice: 7150,
+    //   productPrice: 7000,
+    //   deliveryPrice: 150,
+    //   amount: 1,
+    //   product: {
+    //     id: 3,
+    //     img: 'https://picsum.photos/250/300',
+    //     title:
+    //       "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
+    //     description:
+    //       'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
+    //     category: [[Object], [Object]],
+    //     price: 7000,
+    //     amount: 10,
+    //   },
+    //   bonusBalance: 715,
+    // },
   })
+  // ↑↑ сюди вводимо JSON дані
 })
-// ======================================================
+// ==========================================================
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-save', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  let { ...data } = req.body
+
+  Purchase.updateById(id, data)
+
+  console.log(id, data)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'alert',
+    // data: Purchase.getById(id),
+    data: {
+      message: 'Операція успішна',
+      info: 'Зміни збережено',
+      link: '/purchase-list',
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+// ================================================================
 
 // Підключаємо роутер до бек-енду
 module.exports = router

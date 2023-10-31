@@ -1,0 +1,26 @@
+@use '../../component/heading/style.scss' as heading;
+@use '../../component/purchase-list/style.scss' as
+  purchase-list;
+
+main {
+  margin: 20px;
+
+  .main-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a {
+      display: flex;
+      background-color: aqua;
+      align-items: center;
+      border-radius: 10px;
+      height: 30px;
+      padding: 10px;
+    }
+  }
+  .product-list {
+    display: grid;
+    gap: 30px;
+  }
+}
