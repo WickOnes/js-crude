@@ -4,6 +4,13 @@ const express = require('express')
 // Cтворюємо роутер - місце, куди ми підключаємо ендпоїнти
 const router = express.Router()
 
+
+
+// error: src refspec 3-purchase does not match any
+// error: failed to push some refs to 'https://github.com/WickOnes/js-crude.git'
+
+
+
 // ================================================================
 
 class Purchase {
@@ -445,8 +452,7 @@ router.get('/purchase-list', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-list',
     data: {
-      list: Purchase.getList(),
-      
+      list: Purchase.getList(), 
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -462,8 +468,6 @@ router.get('/purchase-info', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-info',
     data: Purchase.getById(id),
-
-    
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -477,8 +481,6 @@ router.get('/purchase-change', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-change',
     data: Purchase.getById(id),
-
-    
   })
   // ↑↑ сюди вводимо JSON дані
 })
