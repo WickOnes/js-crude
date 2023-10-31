@@ -1,0 +1,33 @@
+@use '../../component/heading/style.scss' as heading;
+@use '../../component/purchase-product/style.scss' as
+  purchase;
+@use '../../component/button/style.scss' as button;
+@use '../../component/field/style.scss' as field;
+@use '../../component/divider/style.scss' as divider;
+
+main {
+  margin: 20px;
+
+  .form-card {
+    border: 1px solid black;
+    padding: 10px;
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+  }
+
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(300px, 1fr)
+    );
+    gap: 30px;
+  }
+}
