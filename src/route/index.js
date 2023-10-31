@@ -446,34 +446,7 @@ router.get('/purchase-list', function (req, res) {
     style: 'purchase-list',
     data: {
       list: Purchase.getList(),
-      // list: [
-      //   {
-      //     id: 1,
-      //     firstname: '111',
-      //     lastname: '111',
-      //     phone: '111',
-      //     email: '111',
-      //     comment: '111',
-      //     bonus: 0,
-      //     promocode: null,
-      //     totalPrice: 7150,
-      //     productPrice: 7000,
-      //     deliveryPrice: 150,
-      //     amount: 1,
-      //     product: {
-      //       id: 3,
-      //       img: 'https://picsum.photos/250/300',
-      //       title:
-      //         "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
-      //       description:
-      //         'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
-      //       category: [[Object], [Object]],
-      //       price: 7000,
-      //       amount: 10,
-      //     },
-      //     bonusBalance: 715,
-      //   },
-      // ],
+      
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -490,32 +463,7 @@ router.get('/purchase-info', function (req, res) {
     style: 'purchase-info',
     data: Purchase.getById(id),
 
-    // data: {
-    //   id: 1,
-    //   firstname: '111',
-    //   lastname: '111',
-    //   phone: '111',
-    //   email: '111',
-    //   comment: '111',
-    //   bonus: 0,
-    //   promocode: null,
-    //   totalPrice: 7150,
-    //   productPrice: 7000,
-    //   deliveryPrice: 150,
-    //   amount: 1,
-    //   product: {
-    //     id: 3,
-    //     img: 'https://picsum.photos/250/300',
-    //     title:
-    //       "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
-    //     description:
-    //       'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
-    //     category: [[Object], [Object]],
-    //     price: 7000,
-    //     amount: 10,
-    //   },
-    //   bonusBalance: 715,
-    // },
+    
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -530,32 +478,7 @@ router.get('/purchase-change', function (req, res) {
     style: 'purchase-change',
     data: Purchase.getById(id),
 
-    // data: {
-    //   id: 1,
-    //   firstname: '111',
-    //   lastname: '111',
-    //   phone: '111',
-    //   email: '111',
-    //   comment: '111',
-    //   bonus: 0,
-    //   promocode: null,
-    //   totalPrice: 7150,
-    //   productPrice: 7000,
-    //   deliveryPrice: 150,
-    //   amount: 1,
-    //   product: {
-    //     id: 3,
-    //     img: 'https://picsum.photos/250/300',
-    //     title:
-    //       "Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/",
-    //     description:
-    //       'AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС',
-    //     category: [[Object], [Object]],
-    //     price: 7000,
-    //     amount: 10,
-    //   },
-    //   bonusBalance: 715,
-    // },
+    
   })
   // ↑↑ сюди вводимо JSON дані
 })
