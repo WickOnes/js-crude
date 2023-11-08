@@ -1,0 +1,59 @@
+* {
+  color: white;
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.89);
+}
+
+a {
+  color: white;
+}
+
+.main {
+  display: grid;
+  margin-top: 40px;
+  padding: 0 60px;
+}
+.main .main-content {
+  display: grid;
+  gap: 80px;
+}
+.main .title {
+  font-size: 24px;
+}
+.main .title--center {
+  text-align: center;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 92px 1fr 42px;
+  gap: 40px;
+  align-items: center;
+}
+.track__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.track__name {
+  font-size: 24px;
+  color: white;
+}
+
+.track-list {
+  display: grid;
+  gap: 40px;
+}
+
+.add-button {
+  color: white;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 92px 1fr;
+  gap: 40px;
+}
+
+/*# sourceMappingURL=style.css.map */

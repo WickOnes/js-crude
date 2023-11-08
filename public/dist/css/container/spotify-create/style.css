@@ -1,0 +1,77 @@
+* {
+  color: white;
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.89);
+}
+
+a {
+  color: white;
+}
+
+.main {
+  display: grid;
+  margin-top: 40px;
+  padding: 0 60px;
+}
+.main .main-content {
+  display: grid;
+  gap: 80px;
+}
+.main .title {
+  font-size: 24px;
+}
+.main .title--center {
+  text-align: center;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 92px 1fr 42px;
+  gap: 40px;
+  align-items: center;
+}
+.track__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.track__name {
+  font-size: 24px;
+  color: white;
+}
+
+.track-list {
+  display: grid;
+  gap: 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+.form__field {
+  border-bottom: 1px solid white;
+  text-align: center;
+  font-size: 32px;
+  padding-bottom: 25px;
+}
+.form__button {
+  padding: 10px;
+  color: black;
+  font-weight: bold;
+  background-color: rgb(47, 255, 92);
+  border-radius: 40px;
+  width: 40%;
+}
+
+/*# sourceMappingURL=style.css.map */

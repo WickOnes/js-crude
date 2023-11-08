@@ -1,0 +1,20 @@
+<main class="main">
+  <div class="main-content">
+    <header class="header">
+      <a href="/spotify-choose">
+        <img src="/img/svg/back.svg" alt="">
+      </a>
+    </header>
+    <h1 class="title title--center">Назвіть плейліст</h1>
+
+    <form method="POST" action="/spotify-create{{#if data.isMix}}?isMix=true{{/if}}" class="form">
+
+      <input required type="text" name="name" class="form__field" placeholder="Назва">
+
+      <button class="form__button"> Створити</button>
+    </form>
+
+
+  </div>
+
+</main>

@@ -1,0 +1,27 @@
+<main class="main">
+
+  {{#with data}}
+
+  <div class="main-content">
+    <a href="/spotify" class="add-button">
+      Головна
+    </a>
+    <h1 class="title title--center">Додати до плейлиста</h1>
+    <ul class="track-list">
+      {{#each tracks }}
+      <li class="track">
+        <img src="{{image}}" class="choose__image" width="100px">
+        <div class="track__content">
+          <strong class="track__name">{{name}}</strong>
+          <em class="track__author">{{author}}</em>
+        </div>
+        <a href="/spotify-playlist?id={{../playlistId}}&trackId={{id}}">
+          <img src="/img/svg/button_add-small.svg">
+        </a>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  {{/with}}
+</main>
